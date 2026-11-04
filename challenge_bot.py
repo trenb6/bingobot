@@ -16,7 +16,6 @@ intents.message_content = True
 
 client = commands.Bot(command_prefix='!', intents=intents)
 
-
 @client.event
 async def on_ready():
     print(f"Logged in as {client.user}")
@@ -51,7 +50,7 @@ async def big_bingo_draw(ctx, players_string):
         for i in range(0, len(challenge_list)):
             await ctx.send(str(i+1) + '. ' + challenge_list[i])
             await asyncio.sleep(0.1)
-        await ctx.send('GOOD LUCK HAVE FUN!')
+        await ctx.send('GOOD LUCK HAVE FUN! :D')
     except:
         await ctx.send("Please gives names separated by commas, example: !big_bingo_draw tren,tim,wessel")
 
@@ -64,7 +63,7 @@ async def medium_bingo_draw(ctx, players_string):
         for i in range(0, len(challenge_list)):
             await ctx.send(str(i+1) + '. ' + challenge_list[i])
             await asyncio.sleep(0.1)
-        await ctx.send('GOOD LUCK HAVE FUN!')
+        await ctx.send('GOOD LUCK HAVE FUN! :D')
     except:
         await ctx.send("Please gives names separated by commas, example: !medium_bingo_draw tren,tim,wessel")
 
@@ -77,7 +76,7 @@ async def small_bingo_draw(ctx, players_string):
         for i in range(0, len(challenge_list)):
             await ctx.send(str(i+1) + '. ' + challenge_list[i])
             await asyncio.sleep(0.1)
-        await ctx.send('GOOD LUCK HAVE FUN!')
+        await ctx.send('GOOD LUCK HAVE FUN! :D')
     except:
         await ctx.send("Please gives names separated by commas, example: !small_bingo_draw tren,tim,wessel")
 
