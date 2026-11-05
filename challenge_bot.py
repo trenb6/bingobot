@@ -106,5 +106,68 @@ async def reroll_challenge(ctx, challenge_number: int):
             return
 
     await ctx.send(f"Challenge number {challenge_number} not found in the last 50 messages.")
+
+import discord
+
+class BingoCard(discord.ui.View):
+
+    def __init__(self, challenges):
+        super().__init__(timeout=None)
+
+        self.completed = set()
+        self.challenges = challenges
+
+        for i, challenge in enumerate(challenges):
+            button = discord.ui.Button(
+                label=f"{i + 1}",
+                style=discord.ButtonStyle.secondary,
+                row=i // 5
+            )
+
+            button.callback = self.create_callback(i)
+            self.add_item(button)
+
+    def create_callback(self, index):
+
+        async def callback(interaction: discord.Interaction):
+
+            if index in self.completed:
+                self.completed.remove(index)
+                self.children[index].style = discord.ButtonStyle.secondary
+
+            else:
+                self.completed.add(index)
+                self.children[index].style = discord.ButtonStyle.success
+
+            await interaction.response.edit_message(view=self)
+
+        return callback
+
+@client.command(name='bingo')
+async def bingo(ctx):
+
+    players_list = ['emma', 'gerard', 'tren', 'tim', 'wessel']
+
+    challenges = challenge_updated.large_bingo_draw(
+        players_list,
+        len(players_list)
+    )
+
+    view = BingoCard(challenges)
+
+    embed = discord.Embed(
+        title="Challenge Bingo",
+        description="Click a challenge when it has been completed!",
+        color=discord.Color.blue()
+    )
+
+    for i, challenge in enumerate(challenges):
+        embed.add_field(
+            name=f"{i + 1}.",
+            value=challenge,
+            inline=True
+        )
+
+    await ctx.send(embed=embed, view=view)
             
 client.run(TOKEN)
