@@ -96,6 +96,7 @@ async def reroll_challenge(ctx, challenge_number: int):
                     content=f"{challenge_number}. {new_challenge}"
                 )
 
+                await ctx.message.add_reaction("✅")
                 # await ctx.send(f"Challenge number {challenge_number} has been rerolled to: {new_challenge}")
 
 
