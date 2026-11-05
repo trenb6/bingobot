@@ -80,4 +80,30 @@ async def small_bingo_draw(ctx, players_string):
     except:
         await ctx.send("Please gives names separated by commas, example: !small_bingo_draw tren,tim,wessel")
 
+@client.command(name='reroll_challenge', help='Rerolls a challenge based on input number')
+async def reroll_challenge(ctx, challenge_number: int):
+
+    async for message in ctx.channel.history(limit=50):
+
+        if message.author == client.user and message.content.startswith(f"{challenge_number}."):
+
+            challenge_type = message.content.split('. ', 1)[1].split(': ', 1)[0]
+
+            try:
+                new_challenge = challenge_updated.draw_one_challenge(challenge_type)
+
+                await message.edit(
+                    content=f"{challenge_number}. {new_challenge}"
+                )
+
+                # await ctx.send(f"Challenge number {challenge_number} has been rerolled to: {new_challenge}")
+
+
+            except ValueError as e:
+                await ctx.send(str(e))
+
+            return
+
+    await ctx.send(f"Challenge number {challenge_number} not found in the last 50 messages.")
+            
 client.run(TOKEN)

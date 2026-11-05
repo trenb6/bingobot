@@ -372,3 +372,63 @@ def small_bingo_draw(players_list, number_of_players, n=9):
     number_of_challenges_left -= len(team_challenges)
 
     return bingo_list
+
+def personal_hard_player_draw(player):
+
+    player_dfs = {
+        'emma': df_emma,
+        'gerard': df_gerard,
+        'tren': df_tren,
+        'tim': df_tim,
+        'wessel': df_wessel
+    }
+
+    df_draw = player_dfs[player]
+
+    random_index = np.random.choice(df_draw.index)
+
+    game = df_draw.loc[random_index, 'Game']
+    challenge = df_draw.loc[random_index, 'Challenge']
+
+    return f'{player}: {game} - {challenge}'
+
+def draw_one_challenge(challenge_type, players_list=None):
+
+    if players_list is not None:
+        (
+            df_team_filtered,
+            df_team_hard_filtered,
+            df_ind_filtered,
+            df_ind_hard_filtered
+        ) = apply_player_availability_filters(
+            df_team,
+            df_team_hard,
+            df_ind,
+            df_ind_hard,
+            players_list
+        )
+    else:
+        df_team_filtered = df_team
+        df_team_hard_filtered = df_team_hard
+        df_ind_filtered = df_ind
+        df_ind_hard_filtered = df_ind_hard
+
+    if challenge_type == "Individual":
+        return individual_draw(df_ind_filtered, 1)[0]
+
+    elif challenge_type == "Individual hard":
+        return individual_hard_draw(df_ind_hard_filtered, 1)[0]
+
+    elif challenge_type == "Team":
+        return team_draw(df_team_filtered, 1)[0]
+
+    elif challenge_type == "Team hard":
+        return team_hard_draw(df_team_hard_filtered, 1)[0]
+
+    # Personal hard challenges
+    elif challenge_type in ['emma', 'gerard', 'tren', 'tim', 'wessel']:
+        return personal_hard_player_draw(challenge_type)
+
+    else:
+        raise ValueError(f"Unknown challenge type: {challenge_type}")
+
