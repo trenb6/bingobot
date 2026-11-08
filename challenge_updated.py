@@ -354,7 +354,7 @@ def small_bingo_draw(players_list, number_of_players, n=9):
     number_of_challenges_left -= len(extra_ind_hard)
 
     # Individual
-    individual_challenges = individual_draw(df_ind_filtered, n=4)
+    individual_challenges = individual_draw(df_ind_filtered, n=3)
     bingo_list.extend(individual_challenges)
 
     number_of_challenges_left -= len(individual_challenges)
@@ -366,7 +366,7 @@ def small_bingo_draw(players_list, number_of_players, n=9):
     # number_of_challenges_left -= len(team_hard_challenges)
 
     # Team
-    team_challenges = team_draw(df_team_filtered, n=2)
+    team_challenges = team_draw(df_team_filtered, n=3)
     bingo_list.extend(team_challenges)
 
     number_of_challenges_left -= len(team_challenges)
