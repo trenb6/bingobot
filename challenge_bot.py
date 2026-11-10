@@ -80,6 +80,64 @@ async def small_bingo_draw(ctx, players_string):
     except:
         await ctx.send("Please gives names separated by commas, example: !small_bingo_draw tren,tim,wessel")
 
+
+@client.command(name='custom_bingo_draw', help='Creates a custom bingo draw for players x,y,z,etc')
+async def custom_bingo_draw(ctx, *, players_string):
+    try:
+        players = players_string.split(',')
+        number_of_players = len(players)
+
+        questions = ["How many **Individual hard** challenges would you like?",
+                     "How many **Individual** challenges would you like?",
+                     "How many **Team hard** challenges would you like?",
+                     "How many **Team** challenges would you like?"]
+
+        answers = []
+
+        def check(message):
+            return (message.author == ctx.author and message.channel == ctx.channel)
+
+        for question in questions:
+            await ctx.send(question + "\n(Type `cancel` to stop.)")
+
+            while True:
+                try:
+                    response = await client.wait_for('message', check=check,timeout=60.0)
+
+                    if response.content.lower() == 'cancel':
+                        await ctx.send("Custom bingo draw cancelled.")
+                        return
+
+                    number = int(response.content)
+
+                    if number < 0:
+                        await ctx.send("Please enter a number of 0 or higher.")
+                        continue
+
+                    answers.append(number)
+                    break
+
+                except ValueError:
+                    await ctx.send("Please enter a valid whole number.")
+
+        individual_hard, individual, team_hard, team = answers
+
+        # Generate the challenges
+        challenge_list = challenge_updated.custom_bingo_draw(players, individual_hard, individual, team_hard, team)
+
+        for i in range(0, len(challenge_list)):
+            await ctx.send(str(i+1) + '. ' + challenge_list[i])
+            await asyncio.sleep(0.1)
+        await ctx.send('GOOD LUCK HAVE FUN! :D')
+
+    except TimeoutError:
+        await ctx.send("You took too long to respond. Please start again.")
+
+    except Exception as e:
+        await ctx.send(f"Something went wrong: {e}")
+        print(f"Custom bingo error: {e}")
+
+
 @client.command(name='reroll_challenge', help='Rerolls a challenge: !reroll_challenge 5 [tren,tim,wessel]')
 async def reroll_challenge(ctx, challenge_number: int, *, players_string: str = None):
 
