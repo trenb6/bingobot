@@ -133,11 +133,15 @@ def personal_hard_draw(players_list, number_of_players):
     
     return(bingo_list_pers_hard)
 
-def individual_hard_draw(df_ind_hard, n_draw):
+def individual_hard_draw(df_ind_hard, n):
+
+    if n > len(df_ind_hard):
+        raise ValueError(f"Requested {n} individual hard challenges, " f"but only {len(df_ind_hard)} are available.")
+
     used_games = []
     bingo_list_ind_hard = []
 
-    while len(bingo_list_ind_hard) < n_draw:
+    while len(bingo_list_ind_hard) < n:
         random_index = np.random.choice(df_ind_hard.index)
         game = df_ind_hard.loc[random_index, 'Game']
         challenge = df_ind_hard.loc[random_index, 'Challenge']
@@ -150,6 +154,10 @@ def individual_hard_draw(df_ind_hard, n_draw):
 
 
 def individual_draw(df_ind, n):
+
+    if n > len(df_ind):
+        raise ValueError(f"Requested {n} individual challenges, " f"but only {len(df_ind)} are available.")
+
     used_challenges = []
     bingo_list_ind = []
 
@@ -166,6 +174,10 @@ def individual_draw(df_ind, n):
 
 
 def team_hard_draw(df_team_hard, n):
+
+    if n > len(df_team_hard):
+        raise ValueError(f"Requested {n} team hard challenges, " f"but only {len(df_team_hard)} are available.")
+
     used_challenges = []
     bingo_list_team_hard = []
 
@@ -182,6 +194,10 @@ def team_hard_draw(df_team_hard, n):
 
 
 def team_draw(df_team, n):
+
+    if n > len(df_team):
+        raise ValueError(f"Requested {n} team challenges, " f"but only {len(df_team)} are available.")
+
     used_challenges = []
     bingo_list_team = []
 
@@ -440,8 +456,7 @@ def custom_bingo_draw(
     n_individual,
     n_team_hard,
     n_team,
-    personal_hard
-):
+    personal_hard):
     (
         df_team_filtered,
         df_team_hard_filtered,
@@ -459,25 +474,12 @@ def custom_bingo_draw(
 
     # Personal hard challenges: one for each player
     if personal_hard:
-        challenges.extend(
-            personal_hard_draw(players_list, len(players_list))
-        )
+        challenges.extend(personal_hard_draw(players_list, len(players_list)))
 
-    challenges.extend(
-        individual_hard_draw(df_ind_hard_filtered, n_individual_hard)
-    )
-
-    challenges.extend(
-        individual_draw(df_ind_filtered, n_individual)
-    )
-
-    challenges.extend(
-        team_hard_draw(df_team_hard_filtered, n_team_hard)
-    )
-
-    challenges.extend(
-        team_draw(df_team_filtered, n_team)
-    )
+    challenges.extend(individual_hard_draw(df_ind_hard_filtered, n_individual_hard))
+    challenges.extend(individual_draw(df_ind_filtered, n_individual))
+    challenges.extend(team_hard_draw(df_team_hard_filtered, n_team_hard))
+    challenges.extend(team_draw(df_team_filtered, n_team))
 
     return challenges
 
