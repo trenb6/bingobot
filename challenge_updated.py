@@ -433,7 +433,15 @@ def draw_one_challenge(challenge_type, players_list=None):
         raise ValueError(f"Unknown challenge type: {challenge_type}")
 
 
-def custom_bingo_draw(players_list, n_individual_hard, n_individual, n_team_hard, n_team):
+
+def custom_bingo_draw(
+    players_list,
+    n_individual_hard,
+    n_individual,
+    n_team_hard,
+    n_team,
+    personal_hard
+):
     (
         df_team_filtered,
         df_team_hard_filtered,
@@ -449,11 +457,29 @@ def custom_bingo_draw(players_list, n_individual_hard, n_individual, n_team_hard
 
     challenges = []
 
-    challenges.extend(individual_hard_draw(df_ind_hard_filtered, n_individual_hard))
-    challenges.extend(individual_draw(df_ind_filtered, n_individual))
-    challenges.extend(team_hard_draw(df_team_hard_filtered, n_team_hard))
-    challenges.extend(team_draw(df_team_filtered, n_team))
-    
+    # Personal hard challenges: one for each player
+    if personal_hard:
+        challenges.extend(
+            personal_hard_draw(players_list, len(players_list))
+        )
+
+    challenges.extend(
+        individual_hard_draw(df_ind_hard_filtered, n_individual_hard)
+    )
+
+    challenges.extend(
+        individual_draw(df_ind_filtered, n_individual)
+    )
+
+    challenges.extend(
+        team_hard_draw(df_team_hard_filtered, n_team_hard)
+    )
+
+    challenges.extend(
+        team_draw(df_team_filtered, n_team)
+    )
+
     return challenges
+
 
 
