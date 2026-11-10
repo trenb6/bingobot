@@ -145,7 +145,7 @@ async def custom_bingo_draw(ctx, *, players_string):
         individual_hard, individual, team_hard, team = answers
 
         # Generate the challenges
-        challenge_list = challenge_updated.custom_bingo_draw(players, individual_hard, individual, team_hard, team)
+        challenge_list = challenge_updated.custom_bingo_draw(players, individual_hard, individual, team_hard, team, personal_hard)
 
         for i in range(0, len(challenge_list)):
             await ctx.send(str(i+1) + '. ' + challenge_list[i])
