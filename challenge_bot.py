@@ -89,8 +89,13 @@ async def custom_bingo_draw(ctx, *, players_string):
 
         await ctx.send("Would you like to include a **Personal hard** challenge for each player? (yes/no)")
 
+        def check(message):
+            return (message.author == ctx.author and message.channel == ctx.channel)
+
         while True:
-            response = await client.wait_for('message', check=check, timeout=60.0)
+            response = await client.wait_for(
+                'message', check=check, timeout=60.0
+            )
 
             if response.content.lower() == 'cancel':
                 await ctx.send("Custom bingo draw cancelled.")
@@ -113,9 +118,6 @@ async def custom_bingo_draw(ctx, *, players_string):
                      "How many **Team** challenges would you like?"]
 
         answers = []
-
-        def check(message):
-            return (message.author == ctx.author and message.channel == ctx.channel)
 
         for question in questions:
             await ctx.send(question + "\n(Type `cancel` to stop.)")
