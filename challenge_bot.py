@@ -160,7 +160,7 @@ async def custom_bingo_draw(ctx, *, players_string):
         print(f"Custom bingo error: {e}")
 
 
-@client.command(name='reroll_challenge', help='Rerolls a challenge: !reroll_challenge 5 [tren,tim,wessel]')
+@client.command(name='reroll_challenge', help='Rerolls a challenge: !reroll_challenge 5 emma,tim,wessel')
 async def reroll_challenge(ctx, challenge_number: int, *, players_string: str = None):
 
     # No names given -> no player filtering
