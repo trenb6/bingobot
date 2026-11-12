@@ -47,7 +47,6 @@ async def big_bingo_draw(ctx, players_string):
         players = players_string.split(',')
         number_of_players = len(players)
         challenge_list = challenge_updated.large_bingo_draw(players, number_of_players)
-        challenge_list.sort()
         for i in range(0, len(challenge_list)):
             await ctx.send(str(i+1) + '. ' + challenge_list[i])
             await asyncio.sleep(0.1)
@@ -61,7 +60,6 @@ async def medium_bingo_draw(ctx, players_string):
         players = players_string.split(',')
         number_of_players = len(players)
         challenge_list = challenge_updated.medium_bingo_draw(players, number_of_players)
-        challenge_list.sort()
         for i in range(0, len(challenge_list)):
             await ctx.send(str(i+1) + '. ' + challenge_list[i])
             await asyncio.sleep(0.1)
@@ -75,7 +73,6 @@ async def small_bingo_draw(ctx, players_string):
         players = players_string.split(',')
         number_of_players = len(players)
         challenge_list = challenge_updated.small_bingo_draw(players, number_of_players)
-        challenge_list.sort()
         for i in range(0, len(challenge_list)):
             await ctx.send(str(i+1) + '. ' + challenge_list[i])
             await asyncio.sleep(0.1)
@@ -149,9 +146,6 @@ async def custom_bingo_draw(ctx, *, players_string):
 
         # Generate the challenges
         challenge_list = challenge_updated.custom_bingo_draw(players, individual_hard, individual, team_hard, team, personal_hard)
-
-        # sort challenge list alphabetically
-        challenge_list.sort()
 
 
         for i in range(0, len(challenge_list)):
